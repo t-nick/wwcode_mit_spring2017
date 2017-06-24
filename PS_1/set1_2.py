@@ -11,9 +11,11 @@ def count_m(first_sum, monthly_salary_save,r):
     while sumsum < first_sum:
         i=0
         while i < 6:
-            sumsum=(sumsum *r) + sumsum + monthly_salary_save
-            count_month+=1
-            i+=1
+            sumsum=(sumsum *r) / 12 + sumsum + monthly_salary_save 
+            count_month += 1
+            i += 1
+            if sumsum < first_sum:
+                break
         monthly_salary_save=monthly_salary_save*float(semi_annual_rise) + monthly_salary_save    
     return count_month
 
@@ -30,4 +32,7 @@ monthly_salary=int(annual_salary)/12
 monthly_salary_save=monthly_salary*float(portion_saved)
 
 mounth=count_m(first_sum, monthly_salary_save,r)
-print("Количество месяцев - " + mounth)
+result = str(mounth)
+print("Количество месяцев - " + result)
+
+#sumsum=(sumsum *r) + sumsum + monthly_salary_save

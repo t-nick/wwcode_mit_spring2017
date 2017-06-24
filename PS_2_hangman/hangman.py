@@ -46,6 +46,7 @@ def choose_word(wordlist):
 
 # -----------------------------------
 
+print ('-------------------is_word_guessed---------------------') 
 # Load the list of words into the variable wordlist
 # so that it can be accessed from anywhere in the program
 wordlist = load_words()
@@ -69,6 +70,7 @@ def is_word_guessed(secret_word, letters_guessed):
 is_word_guessed(secret_word, letters_guessed)
 
 
+print ('-------------------get_guessed_word---------------------') 
 def get_guessed_word(secret_word, letters_guessed):
     '''
     secret_word: string, the word the user is guessing
@@ -88,7 +90,7 @@ def get_guessed_word(secret_word, letters_guessed):
 print(get_guessed_word(secret_word, letters_guessed))
 
 
-
+print ('-------------------get_available_letters---------------------') 
 def get_available_letters(letters_guessed):
     '''
     letters_guessed: list (of letters), which letters have been guessed so far
@@ -107,9 +109,9 @@ def get_available_letters(letters_guessed):
     return remained_letters
 
 print(get_available_letters(letters_guessed))   
-    
+  
 # -----------------------------------
-
+print ('-------------------hangman---------------------') 
 def hangman(secret_word):
     '''
     secret_word: string, the secret word to guess.
@@ -136,10 +138,46 @@ def hangman(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    guesses=6
+    vowels='aeiou'
+    warnings=3
+    print ('Welcome to the game Hangman!')
+    print ('I am thinking of a word that is', len(secret_word), 'letters long.')
+    print ('You have', warnings, 'warnings left.')
+    letters_guessed=[]
+    while guesses > 0:
+        print ('----------')
+        print ('You have', guesses, 'guesses left.')
+        print ('Available letters:', get_available_letters(letters_guessed))
+        ges_letter = input('Please guess a letter:')
+        bukva= str(ges_letter)
+        if bukva.isalpha() == True:
+            letters_guessed.append(bukva)
+            if bukva in secret_word:
+                print ('Good guess:', get_guessed_word(secret_word, letters_guessed))
+            else:
+                print ('Oops! That letter is not in my word:', get_guessed_word(secret_word, letters_guessed))
+                if bukva in vowels:
+                    guesses -= 2
+                else:
+                    guesses -= 1
+        elif bukva.isalpha() == True and bukva in letters_guessed:
+            if warnings > 0:
+                warnings -= 1
+                print ('Oops! That is not a valid letter. You have ', warnings, 'warnings left:', get_guessed_word(secret_word, letters_guessed))
+            else:
+                guesses -= 1
+                print ('Oops! That is not a valid letter. You have no warnings left so you lose one guess:', get_guessed_word(secret_word, letters_guessed))
+                warnings = 3
+        if is_word_guessed(secret_word, letters_guessed) == True:
+            print ('----------')
+            print ('Congratulations, you won!')
+            print ('Your total score for this game is:', guesses*len(letters_guessed))
+            return
+    print ('---------- \n Sorry, you ran out of guesses. The word was', secret_word)
+    
 
-
-
+   
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
 #(hint: you might want to pick your own
